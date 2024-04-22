@@ -1,0 +1,22 @@
+
+SPRING SECURITY:
+    config:
+        - SpringSecurityConfig:
+                + Encrypt Password
+                + Cấu hình securityFilterChain
+                + Cấu hình authenticationManager
+
+    exception:
+        - ResourceNotFoundException
+        - TodoAPIException
+        - ErrorDetails
+        - GlobalExceptionHandler
+
+    security:
+        - CustomUserDetailsService
+                + loadUserByUsername:  xác thực danh tính và xác định các quyền truy cập để có thể sử dụng được API đã được yêu cầu quyền
+
+    service -> impl:
+        - AuthService:
+                + register: Không khác gì tạo mới 1 User bình thường
+                + login: Sử dụng authenticationManager để xử lý đăng nhập
