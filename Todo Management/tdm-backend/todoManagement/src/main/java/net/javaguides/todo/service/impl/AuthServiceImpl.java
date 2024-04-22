@@ -67,6 +67,6 @@ public class AuthServiceImpl implements AuthService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "Đăng nhập thành công cho người dùng: " + loginDto.getUsernameOrEmail(); //Test ABCDEFGHIGK
+        return "Đăng nhập thành công cho người dùng: " + loginDto.getUsernameOrEmail(); //Test 1234567890
     }
 }
