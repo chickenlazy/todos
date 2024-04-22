@@ -1,0 +1,4 @@
+Chuyển trang:
+    - Trang App, sử dụng Route để config url nào sẽ chuyển sang component nào
+    - Trang chính, thêm button bắt sự kiện onClick: sử dụng useNavigate để chuyển url 
+  

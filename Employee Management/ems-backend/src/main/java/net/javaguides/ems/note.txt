@@ -1,0 +1,46 @@
+Entity:
+    Employee:
+        Long id;
+        String firstName;
+        String lastName;
+        String email;
+        Department department;
+
+    Department:
+        Long id;
+        String name;
+        String description;
+        Set<Employee> employees -> (1): Có mappedBy = "department" -> mqh sẽ đc quản lý bởi thuộc tính department bên Employee
+
+Dto:
+     EmployeeDto:
+         Long id;
+         String firstName;
+         String lastName;
+         String email;
+         Long department_id; -> (2) Dto chỉ cần department_id chứ không cần cả department
+
+     DepartmentDto:
+         Long id;
+         String name;
+         String description;
+         -> (3): vì (1) nên chỉ cần 3 thuộc tính này
+
+Mapper:
+    EmployeeMapper:
+        mapToEmployeeDto
+        mapToEmployee
+
+    DepartmentMapper:
+        mapToDepartmentDto
+        mapToDepartment
+
+Service -> impl:
+    EmployeeServiceImpl:
+
+
+
+
+    DepartmentServiceImpl
+
+
