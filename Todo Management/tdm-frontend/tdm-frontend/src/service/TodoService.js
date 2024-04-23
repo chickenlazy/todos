@@ -5,12 +5,14 @@ const REST_API_BASE_TODO_URL = "http://localhost:8080/api/todos";
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
-    config.headers['Authorization'] = getToken();
-    return config;
-  }, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  });
+  const token = getToken();
+  if (token) {
+      config.headers['Authorization'] = `Basic ${token}`;
+  }
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
 
 // Lấy danh sách tất cả Todos
 export const listTodos = () => axios.get(REST_API_BASE_TODO_URL);

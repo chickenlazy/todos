@@ -54,10 +54,9 @@ const Login = () => {
       login(loginDto)
         .then(response => {
           console.log('Login successful:', response.data);
-          const token = 'Basic ' + window.btoa(usernameOrEmail + ':' + password);
-
+          const token = 'Basic ' + window.btoa(loginDto.usernameOrEmail + ":" + loginDto.password);
           storeToken(token);
-          navigate('/dashboard'); // Redirect to dashboard after login
+          navigate('/todos'); // Redirect to dashboard after login
         })
         .catch(error => {
           if (error.response) {

@@ -8,6 +8,7 @@ import net.javaguides.todo.exception.TodoAPIException;
 import net.javaguides.todo.mapper.UserMapper;
 import net.javaguides.todo.repository.RoleRepository;
 import net.javaguides.todo.repository.UserRepository;
+import net.javaguides.todo.security.JwtTokenProvider;
 import net.javaguides.todo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public AuthServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
@@ -67,6 +69,8 @@ public class AuthServiceImpl implements AuthService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "Đăng nhập thành công cho người dùng: " + loginDto.getUsernameOrEmail(); //Test 1234567890
+
+        String token = jwtTokenProvider.generateToken(authentication);
+        return token;
     }
 }
