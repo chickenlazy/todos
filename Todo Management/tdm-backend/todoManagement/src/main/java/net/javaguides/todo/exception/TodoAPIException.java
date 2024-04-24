@@ -7,14 +7,12 @@ public class TodoAPIException extends RuntimeException {
     private HttpStatus httpStatus;
     private String message;
 
-    // Constructor with all parameters
     public TodoAPIException(HttpStatus httpStatus, String message) {
         super(message);  // Call the parent class (RuntimeException) constructor
         this.httpStatus = httpStatus;
         this.message = message;
     }
 
-    // Getters for httpStatus and message
     public HttpStatus getHttpStatus() {
         return httpStatus;
     }

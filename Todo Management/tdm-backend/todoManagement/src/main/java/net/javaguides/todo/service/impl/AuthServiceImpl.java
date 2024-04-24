@@ -66,16 +66,20 @@ public class AuthServiceImpl implements AuthService {
         return "Người dùng đã được đăng ký thành công với ID " + user.getId();
     }
 
+    //Xác thực User -> Tạo token, lấy role -> Tạo obj jwtAuthResponse với các value trên
     @Override
     public JwtAuthResponse login(LoginDto loginDto) {
+        //1. Tạo đối tượng authentication từ loginDto
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        //2. Tạo một token JWT dựa trên thông tin trong đối tượng Authentication và gán vào biến AccessToken của JwtAuthResponse
         String token = jwtTokenProvider.generateToken(authentication);
 
+        //3. Kiểm tra Role của User, lấy role đầu tiên gán vào biến role của JwtAuthResponse
         Optional<User> userOptional = userRepository.findByUsernameOrEmail(loginDto.getUsernameOrEmail());
         String role = null;
         if(userOptional.isPresent()) {

@@ -6,11 +6,9 @@ public class RegisterDto {
     private String password;
     private String email;
 
-    // Constructor without parameters
     public RegisterDto() {
     }
 
-    // Constructor with parameters
     public RegisterDto(String name, String username, String password, String email) {
         this.name = name;
         this.username = username;
@@ -18,7 +16,6 @@ public class RegisterDto {
         this.email = email;
     }
 
-    // Getter and Setter for name
     public String getName() {
         return name;
     }
@@ -27,7 +24,6 @@ public class RegisterDto {
         this.name = name;
     }
 
-    // Getter and Setter for username
     public String getUsername() {
         return username;
     }
@@ -36,7 +32,6 @@ public class RegisterDto {
         this.username = username;
     }
 
-    // Getter and Setter for password
     public String getPassword() {
         return password;
     }
@@ -45,7 +40,6 @@ public class RegisterDto {
         this.password = password;
     }
 
-    // Getter and Setter for email
     public String getEmail() {
         return email;
     }

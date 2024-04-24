@@ -36,7 +36,6 @@ public class SpringSecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        // Sửa đây, truyền jwtTokenProvider và userDetailsService vào constructor
         return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
     }
 
@@ -55,8 +54,10 @@ public class SpringSecurityConfig {
                 })
                 .httpBasic(Customizer.withDefaults());
 
+        //Bắt lỗi khi chưa hoặc không xác thực
         http.exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
+        //cung cấp bộ lọc jwtAuthenticationFilter() trước bộ lọc UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

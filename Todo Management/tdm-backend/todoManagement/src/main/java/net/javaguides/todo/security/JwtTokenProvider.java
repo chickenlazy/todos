@@ -22,13 +22,11 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration-milliseconds}")
     private long jwtExpirationInMs;
 
-    // Generate JWT from user authentication information
+    //Sinh token từ username
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
-        Date now = new Date(); // Capture the current date/time once for consistency
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs); // Compute the expiry date
-
-        // Build JWT with claims
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
                 .setSubject(username)
@@ -44,7 +42,7 @@ public class JwtTokenProvider {
         );
    }
 
-    // Get username from JWT
+   //Lấy username từ token (giải mã)
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key())
@@ -54,7 +52,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    //Validate JWT Token
+    //xác thực token
     public boolean validateToken(String token) {
         Jwts.parserBuilder().setSigningKey(key())
                 .build()

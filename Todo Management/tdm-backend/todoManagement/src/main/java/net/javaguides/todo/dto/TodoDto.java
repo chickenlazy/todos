@@ -6,11 +6,9 @@ public class TodoDto {
     private String description;
     private boolean completed;
 
-    // Constructor mặc định
     public TodoDto() {
     }
 
-    // Constructor với tất cả các thuộc tính
     public TodoDto(Long id, String title, String description, boolean completed) {
         this.id = id;
         this.title = title;
@@ -18,7 +16,6 @@ public class TodoDto {
         this.completed = completed;
     }
 
-    // Getter và Setter cho id
     public Long getId() {
         return id;
     }
@@ -27,7 +24,6 @@ public class TodoDto {
         this.id = id;
     }
 
-    // Getter và Setter cho title
     public String getTitle() {
         return title;
     }
@@ -36,7 +32,6 @@ public class TodoDto {
         this.title = title;
     }
 
-    // Getter và Setter cho description
     public String getDescription() {
         return description;
     }
@@ -45,7 +40,6 @@ public class TodoDto {
         this.description = description;
     }
 
-    // Getter và Setter cho completed
     public boolean isCompleted() {
         return completed;
     }
@@ -54,7 +48,6 @@ public class TodoDto {
         this.completed = completed;
     }
 
-    // Phương thức toString()
     @Override
     public String toString() {
         return "TodoDto{" +

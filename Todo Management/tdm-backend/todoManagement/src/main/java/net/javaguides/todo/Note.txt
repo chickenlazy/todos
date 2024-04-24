@@ -1,29 +1,88 @@
 
-SPRING SECURITY:
+Project Structure:
+
+    Entity:
+        - Role
+        - Todo
+        - User
+
+    dto:
+        - JwtAuthResponse: Cần: accessToken, tokenType = "Bearer", role
+        - LoginDto
+        - RegisterDto
+        - TodoDto
+
+    repository:
+        - RoleRepository
+        - TodoRepository
+        - UserRepository
+
+    mapper:
+        - Login Mapper Class
+        - Todo Mapper
+        - User Mapper
+
+    security:
+        - 1. CustomUserDetailsService: Tùy chỉnh phương thức loadUserByUsername của UserDetailsService
+                + loadUserByUsername:  Trả về môt đối tượng User bao gồm username, password, authorities
+                                       của người dùng dựa trên username hoặc email
+
+        - 2. JwtTokenProvider: Cung cấp hàm sinh token, giải mã token, xác thực token
+                + generateToken: Sinh token (từ username)
+                + getUsernameFromToken: giải mã token (lấy username)
+                + validateToken: xác thực token
+
+        - 3. JwtAuthenticationFilter: Cấu hình bộ lọc
+                + getTokenFromRequest: Trích xuất JWT thuần túy từ header "Authorization" của yêu cầu
+                + doFilterInternal: dùng validateToken để xác thực token -> dùng getUsernameFromToken để
+                                    lấy username từ token -> dùng loadUserByUsername để nhận đc obj userDetails,
+                                    sau đó dùng USERDETAILS để thực hiện quá trình xác thực dựa trên token JWT
+
+        - 4. JwtAuthenticationEntryPoint: xử lý trường hợp khi xác thực không thành công hoặc không có.
+                + commence: xử lý trường hợp khi xác thực không thành công hoặc không có.
+                            Nó sẽ đáp trả với mã trạng thái 401 và một thông báo rõ ràng về việc cần xác thực để tiếp tục.
+
+
+    service -> impl:
+        - AuthService:
+                + String register: Không khác gì tạo mới 1 User bình thường
+                + 5. JwtAuthResponse login
+
     config:
         - SpringSecurityConfig:
                 + Encrypt Password
                 + Cấu hình securityFilterChain
-                + Cấu hình authenticationManager
+                + Cấu hình authenticationManager (dùng trong login)
+
+    controller:
+        - AuthController
+        - Todo Controller
 
     exception:
-        - ResourceNotFoundException
-        - TodoAPIException
-        - ErrorDetails
-        - GlobalExceptionHandler
-
-    security:
-        - CustomUserDetailsService
-                + loadUserByUsername:  xác thực danh tính và xác định các quyền truy cập để có thể sử dụng được API đã được yêu cầu quyền
-
-    service -> impl:
-        - AuthService:
-                + register: Không khác gì tạo mới 1 User bình thường
-                + login: Sử dụng authenticationManager để xử lý đăng nhập
+        - ResourceNotFoundException: custom message khi gặp lỗi 404
+        - TodoAPIException: custom message khi gặp lỗi liên quan đến Todo API
+        - ErrorDetails: Chính xác muốn nhận về timeStamp, message, details khi gặp lỗi (message nhận từ ResourceNotFoundException và TodoAPIException)
+        - GlobalExceptionHandler: Custom để khi gặp lỗi thì nhận về đối tượng ErrorDetails.
 
 
-Sử dụng constructor injection thay vì field injection cho các dependency trong JwtAuthenticationFilter để tránh NullPointerException.
-tokenType
+    utils:
+        - PasswordEncoderImpl: encrypt password để test
+
+IoC: Inversion of Control : Giảm phụ thuộc giữa các thành phần, trong Java, Spring Boot hỗ trợ IoC thông qua DI: dependency Injection
+    -> 2 phương pháp để DI:
+        Field Injection
+        Constructor Injection
+
+JWT: Muốn truyền data an toàn giữa Sever và Client? sử dụng JWT -> 3 phần chính:
+    - Header: chứa thông tin về loại Token, thuật toán mã hóa
+    - Payload: chứa thông tin về user như Id or username, hsd của token
+    - Signature: đc sd để kiểm tra tính xác thực của token, đc tạo bằng cách lấy header và payload đã đc mã hóa,
+                 sau đó sử dụng 1 khóa bí mật để tạo signature thông qua thuật toán đc chỉ định ở header .
 
 Optional<T> : 1 container obj, có thể chứa gtri null hoặc không -> tránh gặp NullPointerException -> EX: findByName.
 ResponseEntity<T>: có thể trả về trạng thái HTTP, Headers HTTP, T
+
+tối ưu code
+
+
+
