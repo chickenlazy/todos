@@ -1,6 +1,7 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, storeToken } from '../service/AuthService';
+import { login, storeTokenAndRole } from '../service/AuthService';
 
 const Login = () => {
   const [loginDto, setLoginDto] = useState({
@@ -54,22 +55,15 @@ const Login = () => {
       login(loginDto)
         .then(response => {
           console.log('Login successful:', response.data);
-          const token = 'Basic ' + window.btoa(loginDto.usernameOrEmail + ":" + loginDto.password);
-          storeToken(token);
-          navigate('/todos'); // Redirect to dashboard after login
+          storeTokenAndRole(response.data.accessToken, response.data.tokenType, response.data.role);
+          navigate('/'); // Redirect to dashboard after login
         })
         .catch(error => {
-          if (error.response) {
-            setErrors(prevErrors => ({
-              ...prevErrors,
-              form: error.response.data.message || 'Error during login'
-            }));
-          } else {
-            setErrors(prevErrors => ({
-              ...prevErrors,
-              form: 'Network error or server is down'
-            }));
-          }
+          const errorMsg = error.response ? (error.response.data.message || 'Error during login') : 'Network error or server is down';
+          setErrors(prevErrors => ({
+            ...prevErrors,
+            form: errorMsg
+          }));
         });
     }
   };

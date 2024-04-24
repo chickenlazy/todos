@@ -2,6 +2,7 @@ package net.javaguides.todo.config;
 
 import net.javaguides.todo.security.JwtAuthenticationEntryPoint;
 import net.javaguides.todo.security.JwtAuthenticationFilter;
+import net.javaguides.todo.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,11 +29,15 @@ public class SpringSecurityConfig {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+        // Sửa đây, truyền jwtTokenProvider và userDetailsService vào constructor
+        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
     }
 
     @Bean

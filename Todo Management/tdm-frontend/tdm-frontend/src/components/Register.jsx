@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const REST_API_BASE_AUTH_URL = "http://localhost:8080/api/auth";
 
@@ -22,6 +23,8 @@ const Register = () => {
         confirmPassword: ''
     });
 
+    const navigate = useNavigate();
+    
     const validateForm = () => {
         let isValid = true;
         let newErrors = { name: '', email: '', username: '', password: '', confirmPassword: '' };
@@ -69,7 +72,7 @@ const Register = () => {
 
             register(registerDto).then(response => {
                 console.log('Registration successful:', response);
-                // Handle successful registration, e.g., navigate to a login page or display a success message
+                navigate('/');
             }).catch(error => {
                 console.error('Error during registration:', error);
                 // Optionally, handle errors, e.g., show a message to the user

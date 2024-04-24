@@ -20,3 +20,10 @@ SPRING SECURITY:
         - AuthService:
                 + register: Không khác gì tạo mới 1 User bình thường
                 + login: Sử dụng authenticationManager để xử lý đăng nhập
+
+
+Sử dụng constructor injection thay vì field injection cho các dependency trong JwtAuthenticationFilter để tránh NullPointerException.
+tokenType
+
+Optional<T> : 1 container obj, có thể chứa gtri null hoặc không -> tránh gặp NullPointerException -> EX: findByName.
+ResponseEntity<T>: có thể trả về trạng thái HTTP, Headers HTTP, T

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { listTodos, deleteTodo, completeTodo, incompleteTodo } from '../service/TodoService';
 import { useNavigate } from 'react-router-dom';
+import { getUserRole } from '../service/AuthService';  // Import getUserRole
 
 const ListTodo = () => {
     const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
+    const userRole = getUserRole();  // Lấy vai trò người dùng
 
     useEffect(() => {
         fetchTodos();
@@ -16,7 +18,6 @@ const ListTodo = () => {
         }).catch(error => {
             console.error('Error fetching todos:', error);
         });
-
     };
 
     const addNewTodo = () => {
@@ -47,7 +48,9 @@ const ListTodo = () => {
     return (
         <div className="container">
             <h2 className="text-center">List of Todos</h2>
-            <button type="button" className="btn btn-primary mb-2" onClick={addNewTodo}>Add Todo</button>
+            {userRole === 'ROLE_ADMIN' && (
+                <button type="button" className="btn btn-primary mb-2" onClick={addNewTodo}>Add Todo</button>
+            )}
 
             <table className="table table-striped table-hover">
                 <thead>
@@ -67,10 +70,14 @@ const ListTodo = () => {
                             <td>{todo.description}</td>
                             <td>{todo.completed ? 'Completed' : 'Pending'}</td>
                             <td>
-                                <button className="btn btn-secondary" onClick={() => updateTodo(todo.id)}>Update</button>
-                                <button className="btn btn-danger" onClick={() => deleteTodoById(todo.id)} style={{marginLeft: '10px'}}>Delete</button>
+                                {userRole === 'ROLE_ADMIN' && (
+                                    <>
+                                        <button className="btn btn-secondary" onClick={() => updateTodo(todo.id)}>Update</button>
+                                        <button className="btn btn-danger" onClick={() => deleteTodoById(todo.id)} style={{marginLeft: '10px'}}>Delete</button>
+                                    </>
+                                )}
                                 <button className="btn btn-info" onClick={() => toggleTodoStatus(todo)} style={{marginLeft: '10px'}}>
-                                    {todo.completed ? 'Pending' : 'Completed'}
+                                    {todo.completed ? 'Mark as Incomplete' : 'Mark as Complete'}
                                 </button>
                             </td>
                         </tr>

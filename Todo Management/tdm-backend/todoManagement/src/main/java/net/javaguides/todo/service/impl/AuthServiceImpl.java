@@ -1,5 +1,6 @@
 package net.javaguides.todo.service.impl;
 
+import net.javaguides.todo.dto.JwtAuthResponse;
 import net.javaguides.todo.dto.LoginDto;
 import net.javaguides.todo.dto.RegisterDto;
 import net.javaguides.todo.entity.Role;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -29,6 +31,8 @@ public class AuthServiceImpl implements AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
@@ -63,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginDto loginDto) {
+    public JwtAuthResponse login(LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
         );
@@ -71,6 +75,24 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtTokenProvider.generateToken(authentication);
-        return token;
+
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(loginDto.getUsernameOrEmail());
+        String role = null;
+        if(userOptional.isPresent()) {
+            User loggedInUser  = userOptional.get();
+            Optional<Role> optionalRole = loggedInUser.getRoles().stream().findFirst(); //
+
+            if(optionalRole.isPresent()) {
+                Role userRole = optionalRole.get();
+                role = userRole.getName();
+            }
+        }
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setRole(role);
+        jwtAuthResponse.setAccessToken(token);
+
+        return  jwtAuthResponse;
+
     }
 }
