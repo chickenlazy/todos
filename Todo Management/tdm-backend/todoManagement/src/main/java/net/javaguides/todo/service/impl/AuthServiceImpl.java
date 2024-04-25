@@ -69,6 +69,8 @@ public class AuthServiceImpl implements AuthService {
     //Xác thực User -> Tạo token, lấy role -> Tạo obj jwtAuthResponse với các value trên
     @Override
     public JwtAuthResponse login(LoginDto loginDto) {
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         //1. Tạo đối tượng authentication từ loginDto
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword())
@@ -90,9 +92,15 @@ public class AuthServiceImpl implements AuthService {
                 Role userRole = optionalRole.get();
                 role = userRole.getName();
             }
+
+            //Thêm
+            jwtAuthResponse.setName(loggedInUser.getName());
+            jwtAuthResponse.setUsername(loggedInUser.getUsername());
+            jwtAuthResponse.setEmail(loggedInUser.getEmail());
+
         }
 
-        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+
         jwtAuthResponse.setRole(role);
         jwtAuthResponse.setAccessToken(token);
 

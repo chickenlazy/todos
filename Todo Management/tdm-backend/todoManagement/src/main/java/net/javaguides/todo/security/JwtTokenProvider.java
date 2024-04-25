@@ -12,9 +12,12 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Component
 public class JwtTokenProvider {
+
+    //private static final Logger LOGGER = Logger.getLogger(JwtTokenProvider.class.getName());
 
     @Value("${app.jwt-secret}")
     private String jwtSecret;
@@ -27,6 +30,8 @@ public class JwtTokenProvider {
         String username = authentication.getName();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
+        //LOGGER.info(String.format("Token issued for %s: issued at %s, expires at %s", username, now, expiryDate));
 
         return Jwts.builder()
                 .setSubject(username)

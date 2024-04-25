@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { getToken, logout } from '../service/AuthService';  // Đảm bảo đường dẫn đúng
+import { getToken, logout } from '../service/AuthService';
 
 const Header = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
-        navigate('/login');  // Chuyển hướng người dùng về trang đăng nhập sau khi đăng xuất
+        navigate('/login'); 
     };
 
     const isLoggedIn = !!getToken();

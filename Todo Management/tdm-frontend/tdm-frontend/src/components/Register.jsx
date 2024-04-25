@@ -75,7 +75,6 @@ const Register = () => {
                 navigate('/');
             }).catch(error => {
                 console.error('Error during registration:', error);
-                // Optionally, handle errors, e.g., show a message to the user
             });
         }
     };

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { listTodos, deleteTodo, completeTodo, incompleteTodo } from '../service/TodoService';
 import { useNavigate } from 'react-router-dom';
-import { getUserRole } from '../service/AuthService';  // Import getUserRole
+import { getUserRole } from '../service/AuthService'; 
 
 const ListTodo = () => {
     const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
-    const userRole = getUserRole();  // Lấy vai trò người dùng
+    const userRole = getUserRole(); 
 
     useEffect(() => {
         fetchTodos();

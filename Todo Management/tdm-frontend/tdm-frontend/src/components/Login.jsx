@@ -1,7 +1,6 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, storeTokenAndRole } from '../service/AuthService';
+import { login, storeTokenAndRole, storeUserDetails } from '../service/AuthService';
 
 const Login = () => {
   const [loginDto, setLoginDto] = useState({
@@ -56,6 +55,7 @@ const Login = () => {
         .then(response => {
           console.log('Login successful:', response.data);
           storeTokenAndRole(response.data.accessToken, response.data.tokenType, response.data.role);
+          storeUserDetails(response.data.name, response.data.username, response.data.email); // Lưu thêm thông tin người dùng
           navigate('/'); // Redirect to dashboard after login
         })
         .catch(error => {

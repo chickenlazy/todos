@@ -1,0 +1,12 @@
+AuthService:
+    login: API login
+    storeTokenAndRole(accessToken, tokenType = 'Bearer', role) -> Lưu accessToken, tokenType = 'Bearer', role vào localStorage
+    storeUserDetails -> Lưu name, username, email vào localStorage
+    getToken -> trả về token theo dạng chuẩn bao gồm loại token và token. Ex: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6.... 
+    getUserRole -> Lấy userRole
+    logout -> Logout và Xóa thông tin liên quan đến phiên đăng nhập của người dùng lưu trữ trong localStorage
+    getUserDetails -> Lấy thông tin user bao gồm name, username, email
+
+TodoService:
+    interceptors: tự động hóa việc thêm token vào headers của mọi request đi ra
+
