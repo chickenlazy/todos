@@ -1,4 +1,4 @@
-Hướng dẫn Đăng Nhập
+Hướng dẫn Đăng Nhập:
 Dự án này hỗ trợ hai loại tài khoản với các quyền hạn khác nhau. Dưới đây là thông tin đăng nhập cho từng tài khoản để bạn có thể thử nghiệm và khám phá các chức năng khác nhau tùy thuộc vào vai trò của mỗi tài khoản.
 
 Tài Khoản Admin
