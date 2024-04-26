@@ -35,6 +35,7 @@ Tài Khoản Admin
 
 Tài Khoản Người Dùng
   Email: user@gmail.com
+  Mật khẩu: user
   Vai trò: ROLE_USER
   Vai trò USER giới hạn hơn so với ADMIN và chỉ cho phép xem nội dung và thực hiện các tác vụ cơ bản.
 
